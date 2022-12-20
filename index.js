@@ -219,7 +219,7 @@ function updateEmpMgr () {
                     }
                     selectedEmpId = empResults[0].id;
                     mgrId = mgrResults[0].id;
-                    let updateMgrInfo = [selectedEmpId, mgrId];
+                    let updateMgrInfo = [mgrId, selectedEmpId];
                     db.query(queries.updateEmpMgr, updateMgrInfo, (err, results) => {
                         if (err) {
                             console.log(err);
