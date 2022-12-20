@@ -67,6 +67,8 @@ function mainMenu() {
                 addEmployee();
             } else if (response.mainMenu === "Update an employee role") {
                 updateEmpRole();
+            } else if (response.mainMenu === "Update an employee's manager") {
+                updateEmpMgr();
             } else if (response.mainMenu === "Save and exit") {
                 process.exit(0);
             } else {
@@ -188,6 +190,41 @@ function updateEmpRole () {
                             console.log(err);
                         }
                         console.log(`Updated ${selectedEmp} to new role of ${newTitle} the database`);
+                        mainMenu();
+                    })
+                })
+            })
+        }
+    })
+}
+
+function updateEmpMgr () {
+    const updateEmpMgr = new questions.UpdateManager();
+    updateEmpMgr.getEmp();
+    updateEmpMgr.getMgr();
+    inquirer.prompt(updateEmpMgr.updateManagerQuestions)
+    .then((response) => {
+        if (response.selectEmp && response.updatedMgr) {
+            let selectedEmp = response.selectEmp;
+            let selectedEmpId = '';
+            let mgrName = response.updatedMgr;
+            let mgrId = '';
+            db.query(queries.getEmpIdSql, selectedEmp, (err, empResults) => {
+                if(err) {
+                    console.log(err);
+                }
+                db.query(queries.getMgrIdSql, mgrName, (err, mgrResults) => {
+                    if(err) {
+                        console.log(err);
+                    }
+                    selectedEmpId = empResults[0].id;
+                    mgrId = mgrResults[0].id;
+                    let updateMgrInfo = [selectedEmpId, mgrId];
+                    db.query(queries.updateEmpMgr, updateMgrInfo, (err, results) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log(`Updated ${selectedEmp}'s manager to ${mgrName} in the database`);
                         mainMenu();
                     })
                 })

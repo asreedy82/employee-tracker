@@ -21,7 +21,7 @@ const mainMenuQuestion = [
         name: "mainMenu",
         message: "Please select one of these options:",
         type: "list",
-        choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "Save and exit"],
+        choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "Update an employee's manager", "Save and exit"],
     },
 ];
 
@@ -122,7 +122,7 @@ function AddEmployee () {
                 mgrArray.push(results[i].manager)
             };
         })
-    }
+    };
 }
 
 let empArray = [];
@@ -171,4 +171,49 @@ function UpdateEmpRole () {
     };
 }
 
-module.exports = { mainMenuQuestion, addDeptQuestion, AddRole, AddEmployee, UpdateEmpRole };
+function UpdateManager () {
+    this.updateManagerQuestions = [
+        {
+            //need this because Inquirer won't show a list type question first
+            name: "pressEnter",
+            message: "Press enter to continue",
+            type: "input",
+        },
+        {
+            //select employee
+            name: "selectEmp",
+            message: "Which employee do you want to update?",
+            type: "list",
+            choices: empArray,
+        },
+        {
+            //updated manager
+            name: "updatedMgr",
+            message: "Who is the employee's new manager?",
+            type: "list",
+            choices: mgrArray,
+        },
+    ];
+    this.getEmp = () => {
+        db.query(`select concat (first_name, " ", last_name) as employee from employee`, (err, results) => {
+            if(err) {
+                console.log(err);
+            }
+            for (let i = 0; i < results.length; i ++) {
+                empArray.push(results[i].employee)
+            };
+        })
+    };
+    this.getMgr = () => {
+        db.query(`select concat (first_name, " ", last_name) as manager from employee where manager_id is not null`, (err, results) => {
+            if (err) {
+                console.log(err);
+            }
+            for (let i = 0; i < results.length; i ++) {
+                mgrArray.push(results[i].manager)
+            };
+        })
+    };
+}
+
+module.exports = { mainMenuQuestion, addDeptQuestion, AddRole, AddEmployee, UpdateEmpRole, UpdateManager };

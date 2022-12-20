@@ -29,4 +29,6 @@ const updateEmpRoleSql = `UPDATE employee SET role_id = ? where id = ?`;
 
 const getEmpIdSql = `select id from employee where concat (first_name, " ", last_name) = ?`;
 
-module.exports = { allDeptSql, allRolesSql, allEmpSql, addDeptSql, addRoleSql, getDeptIdSql, getMgrIdSql, getRoleIdSql, addEmpSql, updateEmpRoleSql, getEmpIdSql };
+const updateEmpMgr = `UPDATE employee SET manager_id = ? where id = ?`;
+
+module.exports = { allDeptSql, allRolesSql, allEmpSql, addDeptSql, addRoleSql, getDeptIdSql, getMgrIdSql, getRoleIdSql, addEmpSql, updateEmpRoleSql, getEmpIdSql, updateEmpMgr };
