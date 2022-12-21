@@ -60,7 +60,7 @@ function AddRole () {
             },
         ];
     this.findDept = () => {
-        db.query(`select name from department`, (err, results) => {
+        db.query(`select name from department order by name asc`, (err, results) => {
             if (err) {
                 console.log(err);
             }
@@ -104,7 +104,7 @@ function AddEmployee () {
         },
     ];
     this.getRole = () => {
-        db.query(`select title from role`, (err, results) => {
+        db.query(`select title from role order by title asc`, (err, results) => {
             if(err) {
                 console.log(err);
             }
@@ -114,7 +114,7 @@ function AddEmployee () {
         })
     };
     this.getMgr = () => {
-        db.query(`select concat (first_name, " ", last_name) as manager from employee where manager_id is not null`, (err, results) => {
+        db.query(`select concat (first_name, " ", last_name) as manager from employee order by manager asc`, (err, results) => {
             if (err) {
                 console.log(err);
             }
@@ -150,7 +150,7 @@ function UpdateEmpRole () {
         },
     ];
     this.getEmp = () => {
-        db.query(`select concat (first_name, " ", last_name) as employee from employee`, (err, results) => {
+        db.query(`select concat (first_name, " ", last_name) as employee from employee order by employee asc`, (err, results) => {
             if(err) {
                 console.log(err);
             }
@@ -160,7 +160,7 @@ function UpdateEmpRole () {
         })
     };
     this.getRole = () => {
-        db.query(`select title from role`, (err, results) => {
+        db.query(`select title from role order by title asc`, (err, results) => {
             if(err) {
                 console.log(err);
             }
@@ -195,7 +195,7 @@ function UpdateManager () {
         },
     ];
     this.getEmp = () => {
-        db.query(`select concat (first_name, " ", last_name) as employee from employee`, (err, results) => {
+        db.query(`select concat (first_name, " ", last_name) as employee from employee order by employee asc`, (err, results) => {
             if(err) {
                 console.log(err);
             }
@@ -205,7 +205,7 @@ function UpdateManager () {
         })
     };
     this.getMgr = () => {
-        db.query(`select concat (first_name, " ", last_name) as manager from employee`, (err, results) => {
+        db.query(`select concat (first_name, " ", last_name) as manager from employee order by manager asc`, (err, results) => {
             if (err) {
                 console.log(err);
             }
