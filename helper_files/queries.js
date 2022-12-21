@@ -1,8 +1,8 @@
 const allDeptSql = `SELECT * FROM department`;
 
-const allRolesSql = `SELECT * FROM role`;
+const allRolesSql = `SELECT r.id, r.title, r.salary, d.name as department FROM role r join department d on r.department_id = d.id`;
 
-const allEmpSql = `SELECT e.id, e.first_name, e.    last_name, r.title, d.name as department, r.salary, 
+const allEmpSql = `SELECT e.id, e.first_name, e.last_name, r.title, d.name as department, r.salary, 
 case 
     when manager_id is null then 'null'
     else m.manager
