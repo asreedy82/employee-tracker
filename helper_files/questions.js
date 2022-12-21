@@ -205,7 +205,7 @@ function UpdateManager () {
         })
     };
     this.getMgr = () => {
-        db.query(`select concat (first_name, " ", last_name) as manager from employee where manager_id is not null`, (err, results) => {
+        db.query(`select concat (first_name, " ", last_name) as manager from employee`, (err, results) => {
             if (err) {
                 console.log(err);
             }
