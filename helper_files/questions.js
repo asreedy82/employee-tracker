@@ -21,7 +21,7 @@ const mainMenuQuestion = [
         name: "mainMenu",
         message: "Please select one of these options:",
         type: "list",
-        choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "Update an employee's manager", "Save and exit"],
+        choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "Update an employee's manager", "View employees for a manager", "Save and exit"],
     },
 ];
 
@@ -216,4 +216,32 @@ function UpdateManager () {
     };
 }
 
-module.exports = { mainMenuQuestion, addDeptQuestion, AddRole, AddEmployee, UpdateEmpRole, UpdateManager };
+function getEmpByMgr () {
+    this.viewEmpByMgrQuestions = [
+        {
+            //need this because Inquirer won't show a list type question first
+            name: "pressEnter",
+            message: "Press enter to continue",
+            type: "input",
+        },
+        {
+            //select manager
+            name: "selectMgr",
+            message: "For which manager do you want to view employees?",
+            type: "list",
+            choices: mgrArray,
+        },
+    ];
+    this.getMgr = () => {
+        db.query(`select concat (first_name, " ", last_name) as manager from employee where id in (select distinct manager_id from employee) order by manager asc`, (err, results) => {
+            if (err) {
+                console.log(err);
+            }
+            for (let i = 0; i < results.length; i ++) {
+                mgrArray.push(results[i].manager)
+            };
+        })
+    };
+}
+
+module.exports = { mainMenuQuestion, addDeptQuestion, AddRole, AddEmployee, UpdateEmpRole, UpdateManager, getEmpByMgr };

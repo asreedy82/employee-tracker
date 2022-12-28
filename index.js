@@ -69,6 +69,8 @@ function mainMenu() {
                 updateEmpRole();
             } else if (response.mainMenu === "Update an employee's manager") {
                 updateEmpMgr();
+            } else if (response.mainMenu === "View employees for a manager") {
+                viewEmpByMgr();
             } else if (response.mainMenu === "Save and exit") {
                 process.exit(0);
             } else {
@@ -227,6 +229,31 @@ function updateEmpMgr () {
                         console.log(`Updated ${selectedEmp}'s manager to ${mgrName} in the database`);
                         mainMenu();
                     })
+                })
+            })
+        }
+    })
+}
+
+function viewEmpByMgr() {
+    const viewEmpByMgr = new questions.getEmpByMgr();
+    viewEmpByMgr.getMgr();
+    inquirer.prompt(viewEmpByMgr.viewEmpByMgrQuestions)
+    .then((response) => {
+        if (response.selectMgr) {
+            let mgrName = response.selectMgr;
+            let mgrId = '';
+            db.query(queries.getEmpIdSql, mgrName, (err, results) => {
+                if(err) {
+                    console.log(err);
+                }
+                mgrId = results[0].id;
+                db.query(queries.viewEmpByMgr, mgrId, (err, results) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                    console.table(results);
+                    mainMenu();
                 })
             })
         }

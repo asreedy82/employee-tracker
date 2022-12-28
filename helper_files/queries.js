@@ -31,4 +31,9 @@ const getEmpIdSql = `select id from employee where concat (first_name, " ", last
 
 const updateEmpMgr = `UPDATE employee SET manager_id = ? where id = ?`;
 
-module.exports = { allDeptSql, allRolesSql, allEmpSql, addDeptSql, addRoleSql, getDeptIdSql, getMgrIdSql, getRoleIdSql, addEmpSql, updateEmpRoleSql, getEmpIdSql, updateEmpMgr };
+const viewEmpByMgr = `select m.manager as manager, concat (e.first_name, " ", e.last_name) as employee_name
+from employee e 
+join (select concat (first_name, " ", last_name) as manager, id as mgr_id from employee) m on e.manager_id = m.mgr_id 
+where e.manager_id = ?`;
+
+module.exports = { allDeptSql, allRolesSql, allEmpSql, addDeptSql, addRoleSql, getDeptIdSql, getMgrIdSql, getRoleIdSql, addEmpSql, updateEmpRoleSql, getEmpIdSql, updateEmpMgr, viewEmpByMgr };
